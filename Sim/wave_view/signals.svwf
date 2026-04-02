@@ -1,0 +1,403 @@
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+#
+# Groups
+#
+if {[catch {group get -using [list {max-finder}]}]} {
+set createdGroup([list {max-finder}]) 1
+catch {group new -name max-finder -overlay 0}
+}
+if {[catch {group get -using [list {sub}]}]} {
+set createdGroup([list {sub}]) 1
+catch {group new -name sub -overlay 0}
+}
+if {[catch {group get -using [list {window}]}]} {
+set createdGroup([list {window}]) 1
+catch {group new -name window -overlay 0}
+}
+if {[catch {group get -using [list {avg}]}]} {
+set createdGroup([list {avg}]) 1
+catch {group new -name avg -overlay 0}
+}
+if {[catch {group get -using [list {norm}]}]} {
+set createdGroup([list {norm}]) 1
+catch {group new -name norm -overlay 0}
+}
+if {[info exists createdGroup([list {max-finder}])]} {
+group using max-finder
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.mf_sta_cur[2:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_addr_cur[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_cur[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.addr_counter_cur[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.rd_en_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.rd_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.data_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.data_valid_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_value_o[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_valid_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.done_o}]} ]
+}
+
+if {[info exists createdGroup([list {sub}])]} {
+group using sub
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.start_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.rd_en_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.rd_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.rd_data_valid_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.rd_data_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.max_finder_start}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.mn_sta_cur[2:0]}]} ]
+}
+
+if {[info exists createdGroup([list {window}])]} {
+group using window
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.range_valid_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.range_count_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.end_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.start_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.end_meets}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.start_meets}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.counter_cur[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.found_start_cur}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_data_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_data_valid_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_en_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.addr_end_cur[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.addr_start_cur[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.max_value_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.max_addr_i[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mwf_sta_cur[2:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.threshold_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.start_i}]} ]
+}
+
+if {[info exists createdGroup([list {avg}])]} {
+group using avg
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.start_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.max_addr_i[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_en_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_data_valid_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_data_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.range_start_i[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.range_end_i[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.window_avg_o[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.window_start_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_max_avg.window_end_o[11:0]}]} ]
+}
+
+if {[info exists createdGroup([list {norm}])]} {
+group using norm
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+group insert \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.avg_value_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.done_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.norm_valid_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_data_valid_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_data_o[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_en_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_data_valid_i}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_data_i[15:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_addr_o[11:0]}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_en_o}]} ] \
+    [subst  {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.start_i}]} ]
+}
+
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.rd_en}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.rd_addr[11:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.rd_data_valid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.rd_data[15:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.wr_en}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.wr_addr[11:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.wr_data[15:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.wr_data_valid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.all_done}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.success}]}
+	} ]]
+
+set groupId0 [waveform add -groups sub]
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {[format {tb_pta_sub_system.u_sub_system.start_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.rd_en_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.rd_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.rd_data_valid_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.rd_data_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.max_finder_start}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.mn_sta_cur[2:0]}]} {-color #ff00ff -namecolor #ff00ff}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format path $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups max-finder]
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.mf_sta_cur[2:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_addr_cur[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_cur[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.addr_counter_cur[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.rd_en_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.rd_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.data_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.data_valid_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_value_o[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.max_valid_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_pta_max_finder.done_o}]} {-color #ff9900}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format path $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+
+
+set groupId0 [waveform add -groups window]
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.range_valid_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.range_count_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.end_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.start_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.end_meets}]} {-color #ff9900}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.start_meets}]} {-color #ff9900}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.counter_cur[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.found_start_cur}]} {-color #ff00ff}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_data_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_data_valid_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mem_rd_en_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.addr_end_cur[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.addr_start_cur[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.max_value_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.max_addr_i[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.mwf_sta_cur[2:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.threshold_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_window_finder.start_i}]} {}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format path $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+waveform hierarchy collapse $groupId0
+
+
+set groupId0 [waveform add -groups avg]
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.start_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.max_addr_i[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_en_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_data_valid_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.mem_rd_data_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.range_start_i[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.range_end_i[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.window_avg_o[15:0]}]} {-color #ff00ff}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.window_start_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_max_avg.window_end_o[11:0]}]} {}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format path $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -signals [subst  {
+	{[format {tb_pta_sub_system.u_sub_system.u_max_avg.accum_r[47:0]}]}
+	} ]]
+
+set groupId0 [waveform add -groups norm]
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.avg_value_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.done_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.norm_valid_o}]} {-color #ff9900}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_data_valid_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_data_o[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_wr_en_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_data_valid_i}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_data_i[15:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_addr_o[11:0]}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.mem_rd_en_o}]} {}
+    {[format {tb_pta_sub_system.u_sub_system.u_norm_calc.start_i}]} {}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format path $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+
+
+waveform xview limits 0 952380ps

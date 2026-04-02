@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+import os 
+import sys 
+import argparse 
+
+WORK_HOME = os.getcwd() 
+#print(WORK_HOME)
+sys.path.append(WORK_HOME)
+from run import *
+
+# now only for sim=rc
+def run(args):
+    compile_param = gen_compile_param(args)
+    run_param = gen_run_param(args)
+
+    cpm_lib_dir = 'cmp_lib'
+    if args.sim.lower() == 'rc':
+            main_str = xrun_base_str + compile_param + run_param
+    case_dir = 'pta_sub_log'
+    log_dir = sim_dir+'/xcelium'
+    if not os.path.lexists(log_dir):
+            os.system('mkdir '+log_dir)
+    log_dir += '/'+case_dir
+    if not os.path.lexists(log_dir):
+            os.system('mkdir '+log_dir)
+    os.chdir(log_dir)
+
+    run_str = main_str
+    print(run_str)
+    os.system(run_str)
+
+
+if __name__ == "__main__":   
+        #os.system('source ../../boot_env.csh')
+        args = parse_args()   
+        #print(args)
+        run(args)
+
+
+

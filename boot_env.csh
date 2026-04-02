@@ -1,0 +1,1 @@
+export PTA_SUB_ROOT=$PWD
